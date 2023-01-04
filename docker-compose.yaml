@@ -2,7 +2,17 @@ version: "3"
 services:
   phonebook:
    image: phonebook:kate
-   ports: 
+   ports:
      - "8084:8080"
    environment:
      SERVICE_PORT: "8080"
+
+  database:
+    image: docker.io/mysql:8
+    ports:
+      - "33061:3306"
+    environment:
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin_password
+      MYSQL_DATABASE: phone_numbers
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"

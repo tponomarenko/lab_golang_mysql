@@ -1,7 +1,24 @@
 # Lab – Phonebook service in Go
 
 The goal of the lab is to build and run a simple phonebook service
-that requires a relational database.
+that requires a relational database to store phonebook records.
+
+
+## Table of contents
+
+- Tasks:
+  - [Task 1 – Build the service](#task-1--build-the-service)
+  - [Task 2 – Start the service without a database](#task-2--start-the-service-without-a-database)
+  - [Task 3 – Build a docker image for the service](#task-3--build-a-docker-image-for-the-service)
+  - [Task 4 – Prepare MySQL server](#task-4--prepare-mysql-server)
+  - [Task 5 – Configure database connection for the service](#task-5--configure-database-connection-for-the-service)
+  - [Task 6 – Different methods of running HTTP queries](#task-6--different-methods-of-running-http-queries)
+  - [Task 7 – Authentication](#task-7--authentication)
+- Documentation
+  - [Service configuration](#service-configuration)
+  - [HTTP endpoints](#http-endpoints)
+  - [Record format](#record-format)
+  - [Authentication](#authentication)
 
 
 ## Task 1 – Build the service
@@ -22,12 +39,12 @@ to create an executable binary file (program).
 
 1. Execute the file, produced after Task 1.
 2. Did the service start. If no - what error did you see?
-3. Refer to the **Service configuration** section to configure the
+3. Refer to the [Service configuration](#service-configuration) section to configure the
    port  and to fix the problem. Please note, that only ports **80**
    and **443** are open on the server.
 4. Run the service again. Did it start?
 5. Explore some of service endpoints. Please refer to the
-   **HTTP endpoints** section.
+   [HTTP endpoints](#http-endpoints) section.
 
 
 ## Task 3 – Build a docker image for the service
@@ -53,19 +70,17 @@ to create an executable binary file (program).
    start it using docker-compose.
 5. Connect to MySQL server with `mysql` client and create the phonebook
    table by running the following SQL query:
-
-```sql
-CREATE TABLE records
-(
-    id           VARCHAR(36) NOT NULL,
-    first_name   VARCHAR(50) NOT NULL,
-    last_name    VARCHAR(50) NOT NULL,
-    phone_number VARCHAR(20) NOT NULL,
-    CONSTRAINT records_pk
-        PRIMARY KEY (id)
-);
-```
-
+   ```sql
+   CREATE TABLE records
+   (
+       id           VARCHAR(36) NOT NULL,
+       first_name   VARCHAR(50) NOT NULL,
+       last_name    VARCHAR(50) NOT NULL,
+       phone_number VARCHAR(20) NOT NULL,
+       CONSTRAINT records_pk
+           PRIMARY KEY (id)
+   );
+   ```
 6. Ensure the table exists by running the `SHOW TABLES;` query.
 
 
@@ -84,19 +99,19 @@ Try running HTTP queries using the following tools:
 
 1. Browser
 2. `curl` command line tool – please explore the manual to find out the options
-4. Postman
-3. (optional) python requests
+3. Postman
+4. (optional) python requests
 
 What are the benefits and limitations of every tool
 
 ## Task 7 – Authentication
 
-1. Following the **Service configuration** section set configure an authentication
-   token for the service.
+1. Following the [Service configuration](#service-configuration) section set configure
+   an authentication token for the service.
 2. Recreate the container with docker-compose to reflect the changes.
 3. Try sending requests as you did before.
 4. What HTTP status code are you getting?
-5. Following the **Authentication** section understand and fix the error.
+5. Following the [Authentication](#authentication) section understand and fix the error.
 
 ## Service configuration
 
@@ -105,8 +120,9 @@ The following variables could be set:
 
 * `SERVICE_PORT` – TCP port on which the service will listen for requests.
 * `AUTH_TOKEN` – if set to any non-empty value, tells the service to check the
-                 specified token on every request. Otherwise all requests will be
-                 allowed unauthenticated. Details in the **Authentication** section.
+                 specified token on every request. Otherwise, all requests will be
+                 allowed unauthenticated. Details in the [Authentication](#authentication)
+                 section.
 * `DB_HOST` – host on which host a MySQL database server is running.
 * `DB_PORT` – port on which a MySQL server is listening.
 * `DB_USERNAME` – name of a user on the MySQL server.
@@ -122,18 +138,18 @@ The following variables could be set:
               Expected status on success: 200 - OK.
               Expected body on success: list of records.
   * **POST** - Creates a new record. A record is required in the
-               request body. For details refer to the **Record format**
+               request body. For details refer to the [Record format](#record-format)
                section.
                Expected status on success: 201 - Created.
                Expected body on success: created record.
 * `/records/{record_id}` – Perform operations with a specific record
   identified by the `record_id`.
   The following HTTP methods are accepted:
-   * **DELETE** – Deletes specified reccord.
+   * **DELETE** – Deletes specified record.
      Expected status on success: 204 - No Content.
    * **PUT** - Updates specified record. New record data is required
      in the request body. It is impossible to update record's id.
-     For details refer to the **Record format** section.
+     For details refer to the [Record format](#record-format) section.
      Expected status on success: 200 - OK.
      Expected body on success: updated record.
 
@@ -152,15 +168,15 @@ Every record has the following JSON attributes:
 ```
 
 The `id` attribute should not be passed when creating a new record.
-Otherwise all attributes are mandatory.
+Otherwise, all attributes are mandatory.
 
 
 ## Authentication
 
 Authentication is a process of proving the identity of a user. For this service, it
 is an optional feature which may be turned on or off by specifying or not specifying
-an authentication token. As mentioned in the **Settings section** the token may by
-specified with the `AUTH_TOKEN` environment variable.
+an authentication token. As mentioned in the [Service configuration](#service-configuration)
+section the token may be specified with the `AUTH_TOKEN` environment variable.
 
 If no token is set, the service will run in no-auth mode and will not authenticate
 requests  at all. Any value set to that variable will set the service to authenticate

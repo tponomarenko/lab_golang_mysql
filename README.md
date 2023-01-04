@@ -69,7 +69,7 @@ CREATE TABLE records
 6. Ensure the table exists by running the `SHOW TABLES;` query.
 
 
-## Task 5 – Prepare MySQL server
+## Task 5 – Configure database connection for the service
 
 1. Using the **Service configuration** section configure database
   connection for the service.
@@ -77,6 +77,15 @@ CREATE TABLE records
    the container gets re-created after docker-compose notices changes in the
    compose file.
 3. Using **HTTP endpoints** test the service endpoints again.
+
+## Task 6 – Different methods of running HTTP queries
+
+Try running HTTP queries using the following tools:
+
+1. Browser
+2. curl
+3. python requests
+4. Postman
 
 ## Service configuration
 

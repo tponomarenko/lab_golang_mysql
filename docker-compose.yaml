@@ -13,6 +13,7 @@ services:
      DB_USERNAME: admin
      DB_PASSWORD: admin_password
      DB_NAME: phone_numbers
+     AUTH_TOKEN: laba
 
   database:
     image: docker.io/mysql:8
@@ -23,5 +24,3 @@ services:
       MYSQL_PASSWORD: admin_password
       MYSQL_DATABASE: phone_numbers
       MYSQL_RANDOM_ROOT_PASSWORD: "yes"
-
-

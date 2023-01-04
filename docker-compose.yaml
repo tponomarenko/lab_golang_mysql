@@ -1,6 +1,8 @@
 version: "3"
 services:
-  database:
-    .............
   phonebook:
-    .............
+   image: phonebook:kate
+   ports: 
+     - "8084:8080"
+   environment:
+     SERVICE_PORT: "8080"

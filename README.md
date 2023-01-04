@@ -1,7 +1,13 @@
 # Lab – Phonebook service in Go
 
 The goal of the lab is to build and run a simple phonebook service
-that requires a relational database to store phonebook records.
+that requires a relational database to store phonebook records. Another
+goal is to practice interaction with a service that provides a REST API
+over the HTTP protocol.
+
+The service provides a typical **CRUD** API for managing a phone book. CRUD
+stands for **C**reate, **R**ead, **U**pdate, **D**elete. APIs like this
+one are common in production environments.
 
 
 ## Table of contents

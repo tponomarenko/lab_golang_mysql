@@ -109,6 +109,23 @@ func (this *Endpoint) GetRecords(ctx *gin.Context) {
 	ctx.IndentedJSON(http.StatusOK, allRecords)
 }
 
+func (this *Endpoint) GetRecordById(ctx *gin.Context) {
+	recordId := ctx.Param("recordId")
+
+	record, err := this.getRecordById(recordId)
+	if err != nil {
+		ctx.IndentedJSON(http.StatusInternalServerError, &gin.H{"message": err.Error()})
+		return
+	}
+
+	if record == nil {
+		ctx.IndentedJSON(http.StatusNotFound, &gin.H{"message": "record not found"})
+		return
+	}
+
+	ctx.IndentedJSON(http.StatusOK, record)
+}
+
 func (this *Endpoint) AddRecord(ctx *gin.Context) {
 	var request RecordRequest
 	err := ctx.BindJSON(&request)
@@ -139,7 +156,7 @@ func (this *Endpoint) DeleteRecord(ctx *gin.Context) {
 	}
 
 	if record == nil {
-		ctx.IndentedJSON(http.StatusNotFound, &gin.H{"message": "reccord not found"})
+		ctx.IndentedJSON(http.StatusNotFound, &gin.H{"message": "record not found"})
 		return
 	}
 

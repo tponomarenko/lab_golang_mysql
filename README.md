@@ -145,6 +145,9 @@ The following variables could be set:
 * `/records/{record_id}` – Perform operations with a specific record
   identified by the `record_id`.
   The following HTTP methods are accepted:
+   * **GET** – Returns a single record.
+     Expected status on success: 200 - OK.
+     Expected body on success: Specified record.
    * **DELETE** – Deletes specified record.
      Expected status on success: 204 - No Content.
    * **PUT** - Updates specified record. New record data is required

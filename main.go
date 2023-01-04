@@ -37,6 +37,7 @@ func main() {
 
 	engine.GET("/records/", endpoint.GetRecords)
 	engine.POST("/records/", endpoint.AddRecord)
+	engine.GET("/records/:recordId", endpoint.GetRecordById)
 	engine.DELETE("/records/:recordId", endpoint.DeleteRecord)
 	engine.PUT("/records/:recordId", endpoint.UpdateRecord)
 

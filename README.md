@@ -83,9 +83,20 @@ CREATE TABLE records
 Try running HTTP queries using the following tools:
 
 1. Browser
-2. curl
-3. python requests
+2. `curl` command line tool – please explore the manual to find out the options
 4. Postman
+3. (optional) python requests
+
+What are the benefits and limitations of every tool
+
+## Task 7 – Authentication
+
+1. Following the **Service configuration** section set configure an authentication
+   token for the service.
+2. Recreate the container with docker-compose to reflect the changes.
+3. Try sending requests as you did before.
+4. What HTTP status code are you getting?
+5. Following the **Authentication** section understand and fix the error.
 
 ## Service configuration
 
@@ -93,6 +104,9 @@ The service reads it's configuration from environment variables.
 The following variables could be set:
 
 * `SERVICE_PORT` – TCP port on which the service will listen for requests.
+* `AUTH_TOKEN` – if set to any non-empty value, tells the service to check the
+                 specified token on every request. Otherwise all requests will be
+                 allowed unauthenticated. Details in the **Authentication** section.
 * `DB_HOST` – host on which host a MySQL database server is running.
 * `DB_PORT` – port on which a MySQL server is listening.
 * `DB_USERNAME` – name of a user on the MySQL server.
@@ -140,4 +154,28 @@ Every record has the following JSON attributes:
 The `id` attribute should not be passed when creating a new record.
 Otherwise all attributes are mandatory.
 
+
+## Authentication
+
+Authentication is a process of proving the identity of a user. For this service, it
+is an optional feature which may be turned on or off by specifying or not specifying
+an authentication token. As mentioned in the **Settings section** the token may by
+specified with the `AUTH_TOKEN` environment variable.
+
+If no token is set, the service will run in no-auth mode and will not authenticate
+requests  at all. Any value set to that variable will set the service to authenticate
+requests  before doing anything.
+
+After the service is set to authenticate requests the token must be specified with
+every request in the `Authentication` header. The value of the header must be in the
+`TOKEN {YOUR_SECRET_TOKEN}` format (without the curly braces). Example:
+
+```
+Authentication: TOKEN my-super-secret-token
+```
+
+When the service is authenticating a request and finds an `Authentication` header with
+a valid token, it then proceeds to process that request as usual. Otherwise, if the
+header was not set, or the format is wrong, or the token is invalid, the service stops
+processing that request and returns `401 - Unauthirized` status code.
 

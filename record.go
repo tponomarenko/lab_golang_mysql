@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/google/uuid"
+	_ "github.com/lib/pq"
 	"log"
 	"net/http"
 )
@@ -205,10 +206,18 @@ func (this *Endpoint) UpdateRecord(ctx *gin.Context) {
 }
 
 func NewEndpoint(settings *Settings) (*Endpoint, error) {
-	connectionString := fmt.Sprintf(
-		"%s:%s@tcp(%s:%s)/%s",
-		settings.DbUsername, settings.DbPassword, settings.DbHost, settings.DbPort, settings.DbName,
-	)
+	var connectionString string
+	if settings.DbEngine == "postgresql" {
+		connectionString = fmt.Sprintf(
+			"postgresql://%s:%s@%s:%s/%s?sslmode=disable",
+			settings.DbUsername, settings.DbPassword, settings.DbHost, settings.DbPort, settings.DbName,
+		)
+	} else {
+		connectionString = fmt.Sprintf(
+			"%s:%s@tcp(%s:%s)/%s",
+			settings.DbUsername, settings.DbPassword, settings.DbHost, settings.DbPort, settings.DbName,
+		)
+	}
 
 	db, err := sql.Open("mysql", connectionString)
 

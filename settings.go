@@ -8,6 +8,7 @@ import (
 type Settings struct {
 	ServicePort string
 	AuthToken   string
+	DbEngine    string
 	DbUsername  string
 	DbPassword  string
 	DbPort      string
@@ -28,6 +29,7 @@ func NewSettings() (*Settings, error) {
 		ServicePort: servicePort,
 		AuthToken:   os.Getenv("AUTH_TOKEN"),
 		DbUsername:  os.Getenv("DB_USERNAME"),
+		DbEngine:    os.Getenv("DB_ENGINE"),
 		DbPassword:  os.Getenv("DB_PASSWORD"),
 		DbPort:      os.Getenv("DB_PORT"),
 		DbHost:      os.Getenv("DB_HOST"),

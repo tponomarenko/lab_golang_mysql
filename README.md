@@ -134,6 +134,7 @@ The following variables could be set:
 * `DB_USERNAME` – name of a user on the MySQL server.
 * `DB_PASSWORD` – password for the user on the MySQL server.
 * `DB_NAME` – name of the database on the MySQL server.
+* `DB_ENGINE` – type of the database engine. Should be either `mysql` or `postgresql`.
 
 
 ## HTTP endpoints

@@ -207,19 +207,23 @@ func (this *Endpoint) UpdateRecord(ctx *gin.Context) {
 
 func NewEndpoint(settings *Settings) (*Endpoint, error) {
 	var connectionString string
+	var driverName string
+
 	if settings.DbEngine == "postgresql" {
 		connectionString = fmt.Sprintf(
 			"postgresql://%s:%s@%s:%s/%s?sslmode=disable",
 			settings.DbUsername, settings.DbPassword, settings.DbHost, settings.DbPort, settings.DbName,
 		)
+		driverName = "postgresql"
 	} else {
 		connectionString = fmt.Sprintf(
 			"%s:%s@tcp(%s:%s)/%s",
 			settings.DbUsername, settings.DbPassword, settings.DbHost, settings.DbPort, settings.DbName,
 		)
+		driverName = "mysql"
 	}
 
-	db, err := sql.Open("mysql", connectionString)
+	db, err := sql.Open(driverName, connectionString)
 
 	if err != nil {
 		log.Printf("Cannot connect to the database at %s.\n", connectionString)
